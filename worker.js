@@ -14,7 +14,7 @@ onmessage = function(event){
         eval(strFunction);
 
     }else if(message.start){
-        target.apply(this, message.start);
-
+        var output = target.apply(this, message.start);
+        postMessage(JSON.stringify({'return': output}));
     }
 }

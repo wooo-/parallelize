@@ -1,11 +1,21 @@
 Parallelize = (function(){
     /* Return type of Parallelize.createThread(): */
     var SimpleThread = function(webWorker){
+        var _self = this;
         this.webWorker = webWorker;
+        this.callback = false;
+        this.webWorker.onmessage = function(event){
+            var message = JSON.parse(event.data);
+            if(message.return && _self.callback){
+                _self.callback(message.return);
+            }
+        };
     }
 
     /* Starts the original function with the given parameters: */
-    SimpleThread.prototype.start = function(parameters){
+    SimpleThread.prototype.start = function(parameters, callback){
+        this.callback = callback;
+
         if(this.webWorker!==null){
             var strParams = JSON.stringify({start: parameters});
             this.webWorker.postMessage(strParams);
