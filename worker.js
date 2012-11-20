@@ -1,4 +1,5 @@
-target = null;
+var target = function(){};
+
 onmessage = function(event){
     var message = JSON.parse(event.data);
     /* Expected messages: 
@@ -9,7 +10,7 @@ onmessage = function(event){
     */
 
     if(message.function){
-        var strFunction = 'target = '+event.data.function;
+        var strFunction = 'target = '+message.function;
         eval(strFunction);
 
     }else if(message.start){
