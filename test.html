@@ -5,5 +5,25 @@
         <title>Test</title>
         <script src="parallelize.js"></script>
     </head>
-    <body></body>
+    <body>
+        <div id="messageBox">
+            Test starts in 5 seconds...
+        </div>
+        <script>
+            setTimeout(function(){
+                var messageBox = document.getElementById('messageBox');
+                var thread = Parallelize.createThread(function(max){
+                    var sum = 0;
+                    for(var i = 0; i < max; ++i){
+                        sum += Math.sqrt(i);
+                    }
+                    return sum;
+                });
+                messageBox.innerHTML = 'Running heavy parallel calculation...';
+                thread.start([1234567890], function(data){
+                    messageBox.innerHTML = 'Completed: <br>'+data;
+                });
+            },5000);
+        </script>
+    </body>
 </html>
