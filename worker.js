@@ -1,7 +1,7 @@
 var target = function(){};
 
 onmessage = function(event){
-    var message = JSON.parse(event.data);
+    var message = event.data;
     /* Expected messages: 
 
         {function: functionString}
@@ -15,6 +15,6 @@ onmessage = function(event){
 
     }else if(message.start){
         var output = target.apply(this, message.start);
-        postMessage(JSON.stringify({'return': output}));
+        postMessage({'return': output});
     }
 }

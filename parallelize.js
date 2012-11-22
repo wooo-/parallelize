@@ -5,7 +5,7 @@ Parallelize = (function(){
         this.webWorker = webWorker;
         this.callback = false;
         this.webWorker.onmessage = function(event){
-            var message = JSON.parse(event.data);
+            var message = event.data;
             if(message.return && _self.callback){
                 _self.callback(message.return);
             }
@@ -17,8 +17,7 @@ Parallelize = (function(){
         this.callback = callback;
 
         if(this.webWorker!==null){
-            var strParams = JSON.stringify({start: parameters});
-            this.webWorker.postMessage(strParams);
+            this.webWorker.postMessage({start: parameters});
         }
     };
 
@@ -42,7 +41,7 @@ Parallelize = (function(){
         var simpleThread = new SimpleThread(webWorker);
         var strFunction = func.toString();
         
-        webWorker.postMessage(JSON.stringify({'function': strFunction}));
+        webWorker.postMessage({'function': strFunction});
         return simpleThread;
     };
 
