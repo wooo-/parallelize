@@ -6,28 +6,28 @@ Parallelize = (function(){
         this.callback = false;
         this.webWorker.onmessage = function(event){
             var message = event.data;
-            if(message.return && _self.callback){
-                _self.callback(message.return);
+            if(message.ret && _self.callback){
+                _self.callback(message.ret);
             }
         };
-    }
+    };
 
     /* Starts the original function with the given parameters: */
     SimpleThread.prototype.start = function(parameters, callback){
         this.callback = callback;
 
-        if(this.webWorker!==null){
+        if(this.webWorker !== null){
             this.webWorker.postMessage({start: parameters});
         }
     };
 
     /* Aborts the thread, releasing resources: */
     SimpleThread.prototype.stop = function(){
-        if(this.webWorker!==null){
+        if(this.webWorker !== null){
             this.webWorker.terminate();
             this.webWorker = null;
         }
-    }
+    };
 
     var Parallelize = function(){};
 
@@ -41,7 +41,7 @@ Parallelize = (function(){
         var simpleThread = new SimpleThread(webWorker);
         var strFunction = func.toString();
         
-        webWorker.postMessage({'function': strFunction});
+        webWorker.postMessage({func: strFunction});
         return simpleThread;
     };
 

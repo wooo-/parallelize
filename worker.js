@@ -9,12 +9,12 @@ onmessage = function(event){
 
     */
 
-    if(message.function){
-        var strFunction = 'target = '+message.function;
+    if(message.func){
+        var strFunction = 'target = ' + message.func;
         eval(strFunction);
 
     }else if(message.start){
         var output = target.apply(this, message.start);
-        postMessage({'return': output});
+        postMessage({ret: output});
     }
 }
